@@ -1,0 +1,46 @@
+🔹 PIP (Pip Installs Packages)
+What it is:
+PIP is the default package manager for Python. It allows you to install, update, and manage external libraries (packages) that are not part of the Python standard library.
+
+Purpose:
+To make it easy to download and install packages from the Python Package Index (PyPI) — the central repository of Python libraries.
+
+Example usage in command line:
+
+bash
+Copy
+Edit
+pip install numpy         # Install a package
+pip uninstall pandas      # Uninstall a package
+pip list                  # List installed packages
+pip install requests==2.25.0  # Install a specific version
+Why it's important:
+PIP helps Python developers extend Python's functionality by using pre-built libraries instead of writing everything from scratch.
+
+🔹 PEP (Python Enhancement Proposal)
+What it is:
+PEP stands for Python Enhancement Proposal. It is a design document that provides information to the Python community or proposes new features, improvements, or processes for Python.
+
+Purpose:
+To standardize and improve Python by documenting ideas, designs, and guidelines in a formal and structured way.
+
+Famous PEPs:
+
+PEP 8 – Style Guide for Python Code (how to write readable code)
+
+PEP 20 – The Zen of Python (philosophy of Python)
+
+PEP 484 – Type Hints (introducing type annotations)
+
+PEP 572 – Assignment Expressions (:= operator)
+
+Example:
+
+python
+Copy
+Edit
+# PEP 8 suggests using lowercase_with_underscores for function names
+def calculate_area(radius):
+    return 3.14 * radius ** 2
+Why it's important:
+PEPs ensure transparency and consistency in Python's evolution and help everyone follow the same coding and development standards.

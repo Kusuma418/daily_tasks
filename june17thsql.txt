@@ -1,0 +1,82 @@
+SET 1
+
+1: Find Employees Earning More Than Their Department’s Average Salary
+SELECT e.emp_id, e.emp_name, e.salary, e.dept_id
+FROM employees e
+JOIN (
+    SELECT dept_id, AVG(salary) AS avg_salary
+    FROM employees
+    GROUP BY dept_id
+) d_avg ON e.dept_id = d_avg.dept_id
+WHERE e.salary > d_avg.avg_salary;
+
+
+2: Find Employees Who Worked on All Projects in Their Department
+   First, we need to assume that a project belongs to the department of the employee who worked on it (since the projects table doesn't directly link to departments).
+Step-by-step logic:
+For each department, find all project IDs.
+For each employee, count how many of their department's projects they’ve worked on.
+If this count matches the total number of department projects → include.
+
+WITH dept_projects AS (
+    SELECT d.dept_id, p.project_id
+    FROM projects p
+    JOIN employees e ON p.emp_id = e.emp_id
+    JOIN departments d ON e.dept_id = d.dept_id
+),
+emp_dept_projects AS (
+    SELECT e.emp_id, e.dept_id, p.project_id
+    FROM employees e
+    JOIN projects p ON e.emp_id = p.emp_id
+),
+project_counts AS (
+    SELECT dept_id, COUNT(DISTINCT project_id) AS total_projects
+    FROM dept_projects
+    GROUP BY dept_id
+),
+emp_project_counts AS (
+    SELECT emp_id, dept_id, COUNT(DISTINCT project_id) AS emp_projects
+    FROM emp_dept_projects
+    GROUP BY emp_id, dept_id
+)
+SELECT e.emp_id, e.emp_name
+FROM emp_project_counts ep
+JOIN project_counts pc ON ep.dept_id = pc.dept_id
+JOIN employees e ON e.emp_id = ep.emp_id
+WHERE ep.emp_projects = pc.total_projects;
+
+
+
+3: Find the Highest-Paid Employee in Each Department Who Started After 2020
+SELECT emp_id, emp_name, dept_id, salary, hire_date
+FROM employees e1
+WHERE hire_date > '2020-01-01'
+AND salary = (
+    SELECT MAX(salary)
+    FROM employees e2
+    WHERE e2.dept_id = e1.dept_id AND e2.hire_date > '2020-01-01'
+);
+
+
+
+4: Find Departments Where All Employees Earn Above a Certain Threshold (e.g., 55000)
+SELECT d.dept_id, d.dept_name
+FROM departments d
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM employees e
+    WHERE e.dept_id = d.dept_id AND e.salary <= 55000
+);
+
+
+
+SET 2
+1: Find Regions Where No Customer Ordered a Specific Product (e.g., product_id = 202)
+SELECT DISTINCT c.region
+FROM customers c
+WHERE c.customer_id NOT IN (
+    SELECT DISTINCT o.customer_id
+    FROM orders o
+    JOIN order_details od ON o.order_id = od.order_id
+    WHERE od.product_id = 202
+);

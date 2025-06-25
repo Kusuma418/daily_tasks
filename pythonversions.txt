@@ -1,0 +1,72 @@
+#List out the difference between current and previous version of python 
+New features introduced in current version
+
+
+| Feature/Aspect           | Python 3.11                            | Python 3.12 (Latest)                                  |
+|--------------------------|----------------------------------------|--------------------------------------------------------|
+| 🐢 Performance           | ~10–60% faster than 3.10               | Up to 5% faster than 3.11 (smaller gain)              |
+| 🧵 Error Messages        | Improved over 3.10                     | Even more accurate tracebacks with column info        |
+| 🧠 Typing Enhancements   | Self, TypedDict improvement            | Type annotations are lazily evaluated by default      |
+| 🔒 Deprecations          | Fewer deprecations                     | Deprecated `distutils`, `wstr` APIs removed           |
+| 📂 Standard Library      | Minor enhancements                     | Many modules cleaned, removed deprecated code         |
+| 🐛 Debugging Support     | Better error locations                 | Precise error locations in tracebacks (per expression)|
+| 🔧 Customization         | Limited sub-interpreter control        | New `--per-interpreter-gil` for isolated GIL support  |
+| 📦 C API Compatibility   | Stable ABI improvements                | Better support for low-level performance tuning       |
+
+
+New Features Introduced in Python 3.12
+✅ 1. Improved Performance
+Slight improvements (~5%) over 3.11 using optimizations in the bytecode interpreter and memory management.
+
+✅ 2. New Syntax: f-string Self-Expressions
+python
+Copy
+Edit
+name = "Alice"
+print(f"{name=}")  # Output: name='Alice'
+Helps debugging by showing both variable name and value.
+
+✅ 3. Flexible except* Syntax
+Now supports parentheses and multiple exception groups more cleanly.
+
+✅ 4. Default Lazy Evaluation of Annotations
+Annotations are no longer evaluated eagerly.
+
+python
+Copy
+Edit
+# Previously: annotation like func(x: SomeClass) caused runtime error if SomeClass not defined yet.
+# Now: it's stored as a string and evaluated later.
+✅ 5. New __override__ Decorator
+Enforces that a method is overriding a base class method.
+
+python
+Copy
+Edit
+class Parent:
+    def greet(self): pass
+
+class Child(Parent):
+    @override
+    def greet(self): pass  # Ensures method is from base class
+✅ 6. Error Locations Now More Precise
+Error tracebacks now point to exact sub-expression, not just line number.
+
+✅ 7. Isolated GIL for Subinterpreters (Experimental)
+Experimental --per-interpreter-gil flag allows Python subinterpreters to run in parallel with separate GILs.
+
+Opens the door for true parallel execution in future versions.
+
+✅ 8. Deprecation & Cleanup
+Removed deprecated wstr APIs.
+
+distutils completely removed (use setuptools instead).
+
+✅ 9. Improved Debug Builds
+Easier to use and better performance even in debug mode.
+
+✅ 10. Standard Library Updates
+Cleanups in many modules (e.g., collections, asyncio, pathlib).
+
+Improved pdb, asyncio.TaskGroup, and logging features.
+ 
